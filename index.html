@@ -8,7 +8,7 @@
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f6fa; color: #333; }
         .container { max-width: 950px; margin: 30px auto; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; }
         
-        /* 👑 Tomar Request Anujayi Ultimate Royal Black & Gold Header 👑 */
+        /* 👑 Premium Royal Black & Gold Header 👑 */
         .brand-header { 
             background: linear-gradient(135deg, #0d0d0d 0%, #1c1912 40%, #262010 70%, #0a0a0a 100%); 
             color: #d4af37; 
@@ -20,7 +20,6 @@
             overflow: hidden;
         }
 
-        /* রাজকীয় গোল্ডেন শাইন অ্যানিমেশন এফেক্ট */
         .brand-header::before {
             content: '';
             position: absolute;
@@ -42,7 +41,7 @@
             font-size: 34px; 
             letter-spacing: 3px; 
             font-weight: 900; 
-            font-family: 'Times New Roman', Times, serif; /* এলিগ্যান্ট লুকের জন্য */
+            font-family: 'Times New Roman', Times, serif;
             background: linear-gradient(to bottom, #ffe494 0%, #d4af37 40%, #ab8212 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -51,33 +50,53 @@
 
         .brand-header p { 
             margin: 10px 0 0 0; 
-            font-size: 12px; 
+            font-size: 13px; 
             color: #d4af37; 
             font-style: italic; 
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 600;
-            opacity: 0.85;
+            opacity: 0.9;
             border-top: 1px dashed rgba(212, 175, 55, 0.3);
             display: inline-block;
             padding-top: 6px;
         }
+
+        /* 📞 Header Phone Number Style */
+        .header-phone {
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: color 0.3s ease;
+        }
+        .header-phone a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .header-phone:hover a, .header-phone:hover {
+            color: #ffe494;
+            text-shadow: 0 0 8px rgba(255, 228, 148, 0.6);
+        }
         
-        /* Main Inner Padding */
         .app-body { padding: 25px; }
         h2 { color: #0056b3; margin-top: 0; font-size: 22px; display: flex; align-items: center; gap: 8px; }
         
         .meta-info { color: #666; margin-bottom: 20px; font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; background: #eef1f6; padding: 12px; border-radius: 6px; border-left: 4px solid #d4af37; }
         .countdown-box { color: #dc3545; font-weight: bold; font-size: 16px; }
         
-        /* পেমেন্ট এবং লক স্ক্রিন */
         .lock-screen { text-align: center; padding: 20px 0; border: 2px dashed #dc3545; border-radius: 8px; background: #fff5f5; }
         .bkash-banner { background: #e2136e; color: white; padding: 15px; border-radius: 6px; font-size: 18px; font-weight: bold; margin-bottom: 20px; }
         .payment-box { background: #fff; border: 1px solid #ddd; padding: 20px; border-radius: 6px; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .payment-box label { display: block; margin-top: 10px; font-weight: bold; font-size: 13px; color: #555; }
         .payment-box input { width: 94%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
         
-        /* ইনপুট ও অ্যাপ কনটেন্ট */
         .input-group { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; background: #f8f9fa; padding: 15px; border-radius: 6px; border: 1px solid #ddd; }
         label { font-weight: bold; }
         input[type="number"], input[type="text"], input[type="password"] { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
@@ -95,11 +114,9 @@
         .badge-inf { background: #17a2b8; }
         .highlight { font-weight: bold; color: #000; }
         
-        /* অ্যাডমিন প্যানেল */
         .admin-section { margin-top: 50px; padding: 20px; background: #f8f9fa; border-top: 2px solid #ccc; border-radius: 6px; }
         .hidden { display: none !important; }
 
-        /* Eye-Catching Footer & Policy */
         footer { background: #0a0a0a; color: #bbb; text-align: center; padding: 25px 20px; font-size: 13px; line-height: 1.6; border-top: 4px solid #d4af37; }
         footer .firm-title { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 5px; }
         footer .firm-title span { color: #d4af37; }
@@ -109,20 +126,19 @@
 <body>
 
 <div class="container">
-    <!-- 👑 Royal Black & Golden Header -->
     <div class="brand-header">
         <h1>ADNAN IT AND ADS FIRM</h1>
-        <p>Premium Software & Dynamic Marketing Solutions</p>
+        <p>Premium Website Software & Dynamic Marketing Solutions</p>
+        <div class="header-phone">📞 <a href="tel:+8801886780202">+8801886780202</a></div>
     </div>
 
     <div class="app-body">
-        <!-- লক স্ক্রিন / পেমেন্ট নির্দেশনাবলী -->
+        <!-- লক স্ক্রিন -->
         <div id="lockScreen" class="lock-screen">
             <div class="bkash-banner">bKash পেমেন্ট প্রয়োজন</div>
             <p>এই টুলটি <b>২৪ ঘণ্টা</b> ব্যবহার করার জন্য নিচের bKash নাম্বারে <b>১০ টাকা (Send Money)</b> করুন:</p>
             <p style="font-size: 24px; color: #e2136e; font-weight: bold; margin: 10px 0;">bKash (Personal): +8801886780202</p>
             
-            <!-- ইউজার ভেরিফিকেশন ফর্ম -->
             <div class="payment-box">
                 <h4 style="margin-top:0; color:#e2136e;">ধাপ ১: পেমেন্ট তথ্য সাবমিট করুন</h4>
                 <label>আপনার bKash নাম্বার:</label>
@@ -143,7 +159,7 @@
             </div>
         </div>
 
-        <!-- মূল অ্যাপ্লিকেশন (লক খোলা থাকলে দেখাবে) -->
+        <!-- মূল অ্যাপ্লিকেশন -->
         <div id="appContent" class="hidden">
             <h2>📋 GDS Training Mock Passport Generator</h2>
             <div class="meta-info">
@@ -178,7 +194,7 @@
             </table>
         </div>
 
-        <!-- অ্যাডমিন প্যানেল সেকশন -->
+        <!-- অ্যাডমিন প্যানেল -->
         <div class="admin-section">
             <h3>🔑 Admin Panel</h3>
             <div id="adminLoginArea">
@@ -196,7 +212,6 @@
         </div>
     </div>
 
-    <!-- Eye-Catching Footer & Copyright Policy -->
     <footer>
         <div class="firm-title">Developed By <span>Adnan IT And Ads Firm</span></div>
         <div>© 2026 Adnan IT And Ads Firm. All Rights Reserved.</div>
@@ -207,12 +222,10 @@
 </div>
 
 <script>
-    // কনফিগারেশন
     const ADMIN_PASS = "@Adisena007@";
     const WHATSAPP_NUM = "8801886780202";
     let timerInterval;
     
-    // GDS ডাটা সেট
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     const firstNamesM = ["ARIF", "TANVIR", "AAYAN", "IMRAN", "ZAYAN", "KABIR", "NABIL", "FAHIM"];
     const firstNamesF = ["FATEMA", "NAZMIN", "NUR", "SULTANA", "MARIA", "ANIKA", "TASFA", "SABRINA"];
@@ -224,46 +237,29 @@
     function sendToWhatsApp() {
         const uPhone = document.getElementById('userPhone').value.trim();
         const uTrx = document.getElementById('userTrx').value.trim();
-        
-        if(!uPhone || !uTrx) {
-            alert("দয়া করে আপনার bKash নাম্বার এবং Transaction ID দিন।");
-            return;
-        }
-        
+        if(!uPhone || !uTrx) { alert("bKash নাম্বার এবং Transaction ID দিন।"); return; }
         const message = `Hello Admin, ami GDS Mock Passport Generator er jonno 10 Taka pay korechi.\n\nbKash Number: ${uPhone}\nTrxID: ${uTrx}\nDoya kore amake active key-ti din.`;
-        const encodedMessage = encodeURIComponent(message);
-        window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodedMessage}`, '_blank');
+        window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(message)}`, '_blank');
     }
 
-    window.onload = function() {
-        checkAccessExpiry();
-    };
+    window.onload = function() { checkAccessExpiry(); };
 
     function startCountdown(expiryTime) {
         clearInterval(timerInterval);
-        
         function updateTimer() {
             const now = new Date().getTime();
             const distance = expiryTime - now;
-            
             if (distance < 0) {
                 clearInterval(timerInterval);
                 localStorage.removeItem('gds_tool_expiry');
                 checkAccessExpiry();
                 return;
             }
-            
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            const hDisplay = String(hours).padStart(2, '0');
-            const mDisplay = String(minutes).padStart(2, '0');
-            const sDisplay = String(seconds).padStart(2, '0');
-            
-            document.getElementById('countdownTimer').innerHTML = `${hDisplay}:${mDisplay}:${sDisplay}`;
+            document.getElementById('countdownTimer').innerHTML = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
         }
-        
         updateTimer();
         timerInterval = setInterval(updateTimer, 1000);
     }
@@ -283,37 +279,54 @@
     }
 
     function generateRandomKey() {
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        let randomString = "";
-        for (let i = 0; i < 6; i++) {
-            randomString += chars.charAt(Math.floor(Math.random() * chars.length));
+        const today = new Date();
+        const d = today.getDate();
+        const m = today.getMonth() + 1;
+        const secretSum = (d * 7) + (m * 13);
+        const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        let randomPart = "";
+        for (let i = 0; i < 4; i++) {
+            randomPart += chars.charAt(Math.floor(Math.random() * chars.length));
         }
-        const generatedKey = `GDS-${randomString}-PASS`;
-        
-        localStorage.setItem('gds_active_pool_key', generatedKey);
+        const generatedKey = `GDS-${secretSum.toString(16).toUpperCase()}${randomPart}-PASS`;
         document.getElementById('generatedKeyDisplay').value = generatedKey;
     }
 
     function verifyKey() {
-        const userKey = document.getElementById('activationKeyInput').value.trim();
-        const serverKey = localStorage.getItem('gds_active_pool_key');
+        const userKey = document.getElementById('activationKeyInput').value.trim().toUpperCase();
+        if (userKey === "BYPASS2026") { activateUserAccess(); return; }
 
-        if ((serverKey && userKey === serverKey) || userKey === "BYPASS2026") {
-            const twentyFourHours = 24 * 60 * 60 * 1000;
-            const expiryTimestamp = new Date().getTime() + twentyFourHours;
+        if (userKey.startsWith("GDS-") && userKey.endsWith("-PASS")) {
+            const today = new Date();
+            const d = today.getDate();
+            const m = today.getMonth() + 1;
+            const correctSumToday = (d * 7) + (m * 13);
+            const hexToday = correctSumToday.toString(16).toUpperCase();
             
-            localStorage.setItem('gds_tool_expiry', expiryTimestamp);
-            localStorage.removeItem('gds_active_pool_key'); 
-            alert("সফল হয়েছে! আগামী ২৪ ঘণ্টার জন্য অ্যাক্সেস দেওয়া হলো।");
-            checkAccessExpiry();
-        } else {
-            alert("ভুল কি অথবা কি-টি অলরেডি ব্যবহার হয়ে গেছে! নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            const correctSumYesterday = (yesterday.getDate() * 7) + ((yesterday.getMonth() + 1) * 13);
+            const hexYesterday = correctSumYesterday.toString(16).toUpperCase();
+
+            const keyMiddle = userKey.replace("GDS-", "").replace("-PASS", "");
+            if (keyMiddle.startsWith(hexToday) || keyMiddle.startsWith(hexYesterday)) {
+                activateUserAccess();
+                return;
+            }
         }
+        alert("ভুল কি! অথবা কি-টির মেয়াদ শেষ। অনুগ্রহ করে নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
+    }
+
+    function activateUserAccess() {
+        const twentyFourHours = 24 * 60 * 60 * 1000;
+        const expiryTimestamp = new Date().getTime() + twentyFourHours;
+        localStorage.setItem('gds_tool_expiry', expiryTimestamp);
+        alert("সফল হয়েছে! আপনার ব্রাউজারে ঠিক এখন থেকে আগামী ২৪ ঘণ্টার জন্য অ্যাক্সেস দেওয়া হলো।");
+        checkAccessExpiry();
     }
 
     function loginAdmin() {
-        const pass = document.getElementById('adminPasswordInput').value;
-        if(pass === ADMIN_PASS) {
+        if(document.getElementById('adminPasswordInput').value === ADMIN_PASS) {
             document.getElementById('adminLoginArea').classList.add('hidden');
             document.getElementById('adminDashboard').classList.remove('hidden');
         } else {
@@ -327,14 +340,8 @@
     }
 
     function makeDOB(type) {
-        let birthYear;
-        if (type === 'ADT') birthYear = randNum(1975, 2005);
-        else if (type === 'CHD') birthYear = randNum(2015, 2024);
-        else birthYear = randNum(2025, 2026);
-
-        let day = String(randNum(1, 28)).padStart(2, '0');
-        let month = getRandom(months);
-        return `${day}${month}${birthYear}`;
+        let birthYear = type === 'ADT' ? randNum(1975, 2005) : (type === 'CHD' ? randNum(2015, 2024) : randNum(2025, 2026));
+        return `${String(randNum(1, 28)).padStart(2, '0')}${getRandom(months)}${birthYear}`;
     }
 
     function generatePassports() {
@@ -353,7 +360,7 @@
             let expiry = `${String(randNum(1,28)).padStart(2,'0')}${getRandom(months)}${randNum(2031, 2036)}`;
             let badgeClass = type === 'ADT' ? 'badge-adt' : (type === 'CHD' ? 'badge-chd' : 'badge-inf');
 
-            let row = `<tr>
+            tbody.innerHTML += `<tr>
                 <td><span class="badge ${badgeClass}">${type}</span></td>
                 <td class="highlight">P</td>
                 <td class="highlight">BD</td>
@@ -365,9 +372,7 @@
                 <td>${gender}</td>
                 <td>${expiry}</td>
             </tr>`;
-            tbody.innerHTML += row;
         }
-
         for(let i=0; i<adt; i++) addRow('ADT');
         for(let i=0; i<chd; i++) addRow('CHD');
         for(let i=0; i<inf; i++) addRow('INF');
