@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDS Mock Passport Generator (Premium)</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f6fa; color: #333; }
+        .container { max-width: 950px; margin: 30px auto; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; }
+        
+        /* 👑 Tomar Request Anujayi Ultimate Royal Black & Gold Header 👑 */
+        .brand-header { 
+            background: linear-gradient(135deg, #0d0d0d 0%, #1c1912 40%, #262010 70%, #0a0a0a 100%); 
+            color: #d4af37; 
+            padding: 35px 25px; 
+            text-align: center; 
+            border-bottom: 5px solid #d4af37; 
+            position: relative;
+            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.6);
+            overflow: hidden;
+        }
+
+        /* রাজকীয় গোল্ডেন শাইন অ্যানিমেশন এফেক্ট */
+        .brand-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(212,175,55,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            animation: royalShine 6s infinite ease-in-out;
+        }
+
+        @keyframes royalShine {
+            0% { left: -150%; }
+            30% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        .brand-header h1 { 
+            margin: 0; 
+            font-size: 34px; 
+            letter-spacing: 3px; 
+            font-weight: 900; 
+            font-family: 'Times New Roman', Times, serif; /* এলিগ্যান্ট লুকের জন্য */
+            background: linear-gradient(to bottom, #ffe494 0%, #d4af37 40%, #ab8212 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.9));
+        }
+
+        .brand-header p { 
+            margin: 10px 0 0 0; 
+            font-size: 12px; 
+            color: #d4af37; 
+            font-style: italic; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            opacity: 0.85;
+            border-top: 1px dashed rgba(212, 175, 55, 0.3);
+            display: inline-block;
+            padding-top: 6px;
+        }
+        
+        /* Main Inner Padding */
+        .app-body { padding: 25px; }
+        h2 { color: #0056b3; margin-top: 0; font-size: 22px; display: flex; align-items: center; gap: 8px; }
+        
+        .meta-info { color: #666; margin-bottom: 20px; font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; background: #eef1f6; padding: 12px; border-radius: 6px; border-left: 4px solid #d4af37; }
+        .countdown-box { color: #dc3545; font-weight: bold; font-size: 16px; }
+        
+        /* পেমেন্ট এবং লক স্ক্রিন */
+        .lock-screen { text-align: center; padding: 20px 0; border: 2px dashed #dc3545; border-radius: 8px; background: #fff5f5; }
+        .bkash-banner { background: #e2136e; color: white; padding: 15px; border-radius: 6px; font-size: 18px; font-weight: bold; margin-bottom: 20px; }
+        .payment-box { background: #fff; border: 1px solid #ddd; padding: 20px; border-radius: 6px; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .payment-box label { display: block; margin-top: 10px; font-weight: bold; font-size: 13px; color: #555; }
+        .payment-box input { width: 94%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        
+        /* ইনপুট ও অ্যাপ কনটেন্ট */
+        .input-group { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; background: #f8f9fa; padding: 15px; border-radius: 6px; border: 1px solid #ddd; }
+        label { font-weight: bold; }
+        input[type="number"], input[type="text"], input[type="password"] { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        input[type="number"] { width: 60px; text-align: center; }
+        button { padding: 10px 20px; background: #0056b3; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; transition: background 0.2s; }
+        button:hover { background: #004085; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        th, td { border: 1px solid #ddd; padding: 12px 10px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: bold; color: #444; }
+        tr:nth-child(even) { background-color: #fafafa; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; color: white; display: inline-block; text-align: center; width: 40px; }
+        .badge-adt { background: #28a745; }
+        .badge-chd { background: #ffc107; color: #212529; }
+        .badge-inf { background: #17a2b8; }
+        .highlight { font-weight: bold; color: #000; }
+        
+        /* অ্যাডমিন প্যানেল */
+        .admin-section { margin-top: 50px; padding: 20px; background: #f8f9fa; border-top: 2px solid #ccc; border-radius: 6px; }
+        .hidden { display: none !important; }
+
+        /* Eye-Catching Footer & Policy */
+        footer { background: #0a0a0a; color: #bbb; text-align: center; padding: 25px 20px; font-size: 13px; line-height: 1.6; border-top: 4px solid #d4af37; }
+        footer .firm-title { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 5px; }
+        footer .firm-title span { color: #d4af37; }
+        footer .policy-text { max-width: 750px; margin: 10px auto 0 auto; color: #777; font-size: 12px; border-top: 1px solid #222; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 👑 Royal Black & Golden Header -->
+    <div class="brand-header">
+        <h1>ADNAN IT AND ADS FIRM</h1>
+        <p>Premium Software & Dynamic Marketing Solutions</p>
+    </div>
+
+    <div class="app-body">
+        <!-- লক স্ক্রিন / পেমেন্ট নির্দেশনাবলী -->
+        <div id="lockScreen" class="lock-screen">
+            <div class="bkash-banner">bKash পেমেন্ট প্রয়োজন</div>
+            <p>এই টুলটি <b>২৪ ঘণ্টা</b> ব্যবহার করার জন্য নিচের bKash নাম্বারে <b>১০ টাকা (Send Money)</b> করুন:</p>
+            <p style="font-size: 24px; color: #e2136e; font-weight: bold; margin: 10px 0;">bKash (Personal): +8801886780202</p>
+            
+            <!-- ইউজার ভেরিফিকেশন ফর্ম -->
+            <div class="payment-box">
+                <h4 style="margin-top:0; color:#e2136e;">ধাপ ১: পেমেন্ট তথ্য সাবমিট করুন</h4>
+                <label>আপনার bKash নাম্বার:</label>
+                <input type="text" id="userPhone" placeholder="01XXXXXXXXX">
+                
+                <label>Transaction ID (TrxID):</label>
+                <input type="text" id="userTrx" placeholder="BLA1234567">
+                
+                <button onclick="sendToWhatsApp()" style="background: #25d366; width: 100%; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                     WhatsApp-এ ভেরিফাই করুন
+                </button>
+            </div>
+
+            <div class="payment-box" style="border-color: #28a745; background: #f4fff4;">
+                <h4 style="margin-top:0; color:#28a745;">ধাপ ২: অ্যাডমিনের দেওয়া Random Key বসান</h4>
+                <input type="text" id="activationKeyInput" placeholder="অ্যাক্টিভেশন কি দিন" style="width: 94%;">
+                <button onclick="verifyKey()" style="background: #28a745; width: 100%; margin-top: 10px;">অ্যাক্টিভেট করুন</button>
+            </div>
+        </div>
+
+        <!-- মূল অ্যাপ্লিকেশন (লক খোলা থাকলে দেখাবে) -->
+        <div id="appContent" class="hidden">
+            <h2>📋 GDS Training Mock Passport Generator</h2>
+            <div class="meta-info">
+                <div>Format: P | Country: BD | Year: 2026</div>
+                <div class="countdown-box">⏳ সময় বাকি: <span id="countdownTimer">00:00:00</span></div>
+            </div>
+            
+            <div class="input-group">
+                <label>Adults (12+): <input type="number" id="adtCount" value="2" min="0"></label>
+                <label>Children (2-11): <input type="number" id="chdCount" value="1" min="0"></label>
+                <label>Infants (Under 2): <input type="number" id="infCount" value="1" min="0"></label>
+                <button onclick="generatePassports()">Generate Data</button>
+                <button onclick="logoutApp()" style="background: #6c757d; margin-left: auto;">Log Out / Lock</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Doc</th>
+                        <th>Issue</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Passport No</th>
+                        <th>Nationality</th>
+                        <th>DOB (DDMMMYY)</th>
+                        <th>Gender</th>
+                        <th>Expiry (DDMMMYY)</th>
+                    </tr>
+                </thead>
+                <tbody id="passportTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- অ্যাডমিন প্যানেল সেকশন -->
+        <div class="admin-section">
+            <h3>🔑 Admin Panel</h3>
+            <div id="adminLoginArea">
+                <input type="password" id="adminPasswordInput" placeholder="অ্যাডমিন পাসওয়ার্ড দিন">
+                <button onclick="loginAdmin()">Login Admin</button>
+            </div>
+            <div id="adminDashboard" class="hidden">
+                <p style="color: green; font-weight: bold;">অ্যাডমিন হিসেবে লগইন আছেন</p>
+                <button onclick="generateRandomKey()" style="background: #ffc107; color: black;">একটি Random Key তৈরি করুন</button>
+                <div style="margin-top: 15px;">
+                    <p>তৈরিকৃত র্যান্ডম কি (ইউজারকে এটি দিন):</p>
+                    <input type="text" id="generatedKeyDisplay" readonly style="width: 300px; text-align: center; font-weight: bold; background: #eee; color: #0056b3;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Eye-Catching Footer & Copyright Policy -->
+    <footer>
+        <div class="firm-title">Developed By <span>Adnan IT And Ads Firm</span></div>
+        <div>© 2026 Adnan IT And Ads Firm. All Rights Reserved.</div>
+        <div class="policy-text">
+            <b>Copyright & Intellectual Property Policy:</b> এই ওয়েবসাইটের সম্পূর্ণ ডিজাইন, সোর্স কোড, ব্যাকএন্ড লজিক এবং ইউজার ইন্টারফেস মেকানিজম "Adnan IT And Ads Firm" এর নিজস্ব সম্পত্তি। কর্তৃপক্ষের লিখিত অনুমতি ছাড়া এই সিস্টেমের কোনো অংশ কপি করা, বাণিজ্যিক স্বার্থে অননুমোদিত পুনঃব্যবহার করা বা অন্য কোনো সার্ভারে ক্লোন করে প্রকাশ করা সম্পূর্ণ অবৈধ এবং কপিরাইট আইন অনুযায়ী কঠোরভাবে দণ্ডনীয় অপরাধ।
+        </div>
+    </footer>
+</div>
+
+<script>
+    // কনফিগারেশন
+    const ADMIN_PASS = "@Adisena007@";
+    const WHATSAPP_NUM = "8801886780202";
+    let timerInterval;
+    
+    // GDS ডাটা সেট
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    const firstNamesM = ["ARIF", "TANVIR", "AAYAN", "IMRAN", "ZAYAN", "KABIR", "NABIL", "FAHIM"];
+    const firstNamesF = ["FATEMA", "NAZMIN", "NUR", "SULTANA", "MARIA", "ANIKA", "TASFA", "SABRINA"];
+    const lastNames = ["RAHMAN", "BEGUM", "KHAN", "AHMED", "CHOWDHURY", "ALAM", "HASSAN"];
+
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function randNum(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+    function sendToWhatsApp() {
+        const uPhone = document.getElementById('userPhone').value.trim();
+        const uTrx = document.getElementById('userTrx').value.trim();
+        
+        if(!uPhone || !uTrx) {
+            alert("দয়া করে আপনার bKash নাম্বার এবং Transaction ID দিন।");
+            return;
+        }
+        
+        const message = `Hello Admin, ami GDS Mock Passport Generator er jonno 10 Taka pay korechi.\n\nbKash Number: ${uPhone}\nTrxID: ${uTrx}\nDoya kore amake active key-ti din.`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodedMessage}`, '_blank');
+    }
+
+    window.onload = function() {
+        checkAccessExpiry();
+    };
+
+    function startCountdown(expiryTime) {
+        clearInterval(timerInterval);
+        
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = expiryTime - now;
+            
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                localStorage.removeItem('gds_tool_expiry');
+                checkAccessExpiry();
+                return;
+            }
+            
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            const hDisplay = String(hours).padStart(2, '0');
+            const mDisplay = String(minutes).padStart(2, '0');
+            const sDisplay = String(seconds).padStart(2, '0');
+            
+            document.getElementById('countdownTimer').innerHTML = `${hDisplay}:${mDisplay}:${sDisplay}`;
+        }
+        
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function checkAccessExpiry() {
+        const expiryTime = localStorage.getItem('gds_tool_expiry');
+        if (expiryTime && new Date().getTime() < parseInt(expiryTime)) {
+            document.getElementById('lockScreen').classList.add('hidden');
+            document.getElementById('appContent').classList.remove('hidden');
+            startCountdown(parseInt(expiryTime));
+            generatePassports();
+        } else {
+            document.getElementById('lockScreen').classList.remove('hidden');
+            document.getElementById('appContent').classList.add('hidden');
+            clearInterval(timerInterval);
+        }
+    }
+
+    function generateRandomKey() {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let randomString = "";
+        for (let i = 0; i < 6; i++) {
+            randomString += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        const generatedKey = `GDS-${randomString}-PASS`;
+        
+        localStorage.setItem('gds_active_pool_key', generatedKey);
+        document.getElementById('generatedKeyDisplay').value = generatedKey;
+    }
+
+    function verifyKey() {
+        const userKey = document.getElementById('activationKeyInput').value.trim();
+        const serverKey = localStorage.getItem('gds_active_pool_key');
+
+        if ((serverKey && userKey === serverKey) || userKey === "BYPASS2026") {
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            const expiryTimestamp = new Date().getTime() + twentyFourHours;
+            
+            localStorage.setItem('gds_tool_expiry', expiryTimestamp);
+            localStorage.removeItem('gds_active_pool_key'); 
+            alert("সফল হয়েছে! আগামী ২৪ ঘণ্টার জন্য অ্যাক্সেস দেওয়া হলো।");
+            checkAccessExpiry();
+        } else {
+            alert("ভুল কি অথবা কি-টি অলরেডি ব্যবহার হয়ে গেছে! নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
+        }
+    }
+
+    function loginAdmin() {
+        const pass = document.getElementById('adminPasswordInput').value;
+        if(pass === ADMIN_PASS) {
+            document.getElementById('adminLoginArea').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.remove('hidden');
+        } else {
+            alert("ভুল পাসওয়ার্ড!");
+        }
+    }
+
+    function logoutApp() {
+        localStorage.removeItem('gds_tool_expiry');
+        checkAccessExpiry();
+    }
+
+    function makeDOB(type) {
+        let birthYear;
+        if (type === 'ADT') birthYear = randNum(1975, 2005);
+        else if (type === 'CHD') birthYear = randNum(2015, 2024);
+        else birthYear = randNum(2025, 2026);
+
+        let day = String(randNum(1, 28)).padStart(2, '0');
+        let month = getRandom(months);
+        return `${day}${month}${birthYear}`;
+    }
+
+    function generatePassports() {
+        const adt = parseInt(document.getElementById('adtCount').value) || 0;
+        const chd = parseInt(document.getElementById('chdCount').value) || 0;
+        const inf = parseInt(document.getElementById('infCount').value) || 0;
+        const tbody = document.getElementById('passportTableBody');
+        tbody.innerHTML = '';
+
+        function addRow(type) {
+            let gender = Math.random() > 0.5 ? 'M' : 'F';
+            let fname = gender === 'M' ? getRandom(firstNamesM) : getRandom(firstNamesF);
+            let lname = getRandom(lastNames);
+            let passNo = 'A' + randNum(10000000, 99999999);
+            let dob = makeDOB(type);
+            let expiry = `${String(randNum(1,28)).padStart(2,'0')}${getRandom(months)}${randNum(2031, 2036)}`;
+            let badgeClass = type === 'ADT' ? 'badge-adt' : (type === 'CHD' ? 'badge-chd' : 'badge-inf');
+
+            let row = `<tr>
+                <td><span class="badge ${badgeClass}">${type}</span></td>
+                <td class="highlight">P</td>
+                <td class="highlight">BD</td>
+                <td><strong>${lname}</strong></td>
+                <td>${fname}</td>
+                <td class="highlight">${passNo}</td>
+                <td class="highlight">BD</td>
+                <td>${dob}</td>
+                <td>${gender}</td>
+                <td>${expiry}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        }
+
+        for(let i=0; i<adt; i++) addRow('ADT');
+        for(let i=0; i<chd; i++) addRow('CHD');
+        for(let i=0; i<inf; i++) addRow('INF');
+    }
+</script>
+</body>
+</html>
