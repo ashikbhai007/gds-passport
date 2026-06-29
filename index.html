@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GDS Training Passport Generator (Premium)</title>
+    <title>GDS Training Passport (Premium)</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f6fa; color: #333; }
         .container { max-width: 950px; margin: 30px auto; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; }
@@ -161,7 +161,7 @@
 
         <!-- মূল অ্যাপ্লিকেশন -->
         <div id="appContent" class="hidden">
-            <h2>📋 GDS Training Passport Generator</h2>
+            <h2>📋 GDS Training Passport</h2>
             <div class="meta-info">
                 <div>Format: P | Country: BD | Year: 2026</div>
                 <div class="countdown-box">⏳ সময় বাকি: <span id="countdownTimer">00:00:00</span></div>
@@ -238,7 +238,7 @@
         const uPhone = document.getElementById('userPhone').value.trim();
         const uTrx = document.getElementById('userTrx').value.trim();
         if(!uPhone || !uTrx) { alert("bKash নাম্বার এবং Transaction ID দিন।"); return; }
-        const message = `Hello Admin, ami GDS Passport Generator er jonno 10 Taka pay korechi.\n\nbKash Number: ${uPhone}\nTrxID: ${uTrx}\nDoya kore amake active key-ti din.`;
+        const message = `Hello Admin, ami GDS Passport er jonno 10 Taka pay korechi.\n\nbKash Number: ${uPhone}\nTrxID: ${uTrx}\nDoya kore amake active key-ti din.`;
         window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(message)}`, '_blank');
     }
 
