@@ -272,7 +272,6 @@
             if (distance < 0) {
                 clearInterval(timerInterval);
                 localStorage.removeItem('gds_tool_expiry');
-                localStorage.removeItem('gds_active_key'); // এক্সপায়ার হলে কি মুছে যাবে
                 checkAccessExpiry();
                 return;
             }
@@ -315,7 +314,7 @@
 
     function verifyKey() {
         const userKey = document.getElementById('activationKeyInput').value.trim().toUpperCase();
-        if (userKey === "BYPASS2026") { activateUserAccess(userKey); return; }
+        if (userKey === "BYPASS2026") { activateUserAccess(); return; }
 
         if (userKey.startsWith("GDS-") && userKey.endsWith("-PASS")) {
             const today = new Date();
@@ -331,28 +330,26 @@
 
             const keyMiddle = userKey.replace("GDS-", "").replace("-PASS", "");
             if (keyMiddle.startsWith(hexToday) || keyMiddle.startsWith(hexYesterday)) {
-                activateUserAccess(userKey);
+                activateUserAccess();
                 return;
             }
         }
-        alert("ভুল কি! অথবা কি-টির মেয়াদ শেষ। অনুগ্রহ করে নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
+        alert("ভুল কি! অথবা কি-টির মেয়াদ শেষ। অনুগ্রহ করে নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
     }
 
-    /* 🛡️ পারফেক্ট লজিক: একই কি বারবার বসালেও কাউন্টডাউন প্রথম থেকে শুরু হবে না */
-    function activateUserAccess(key) {
-        const savedKey = localStorage.getItem('gds_active_key');
+    /* 🛡️ চূড়ান্ত ফিক্সড লজিক: প্রথম লগইনের পর যেকোনো কোড দিলেও টাইম আর রিসেট হবে না */
+    function activateUserAccess() {
         const existingExpiry = localStorage.getItem('gds_tool_expiry');
         const now = new Date().getTime();
-
-        // যদি ইউজার আগের ব্যবহৃত কি-টিই আবার সাবমিট করে এবং সময় বাকি থাকে
-        if (savedKey === key && existingExpiry && now < parseInt(existingExpiry)) {
-            alert("এই কোডটি ইতিমধ্যে সক্রিয় আছে। আপনার আগের কাউন্টডাউনটিই সচল রাখা হলো।");
+        
+        // যদি ব্রাউজারে আগে থেকেই সচল কাউন্টডাউন থাকে, তবে নতুন করে সময় রিসেট হবে না
+        if (existingExpiry && now < parseInt(existingExpiry)) {
+            alert("সফল হয়েছে! আপনার আগের সচল কাউন্টডাউন থেকেই টুলটি ওপেন করা হলো।");
         } else {
-            // নতুন কি অথবা নতুন সেশনের জন্য নতুন করে ২৪ ঘণ্টা দেওয়া হবে
+            // যদি একদম প্রথমবার লগইন হয় বা আগের মেয়াদ শেষ হয়ে গিয়ে থাকে, তবেই নতুন ২৪ ঘণ্টা শুরু হবে
             const twentyFourHours = 24 * 60 * 60 * 1000;
             const expiryTimestamp = now + twentyFourHours;
             localStorage.setItem('gds_tool_expiry', expiryTimestamp);
-            localStorage.setItem('gds_active_key', key); // নতুন কি ব্রাউজারে সেভ হলো
             alert("সফল হয়েছে! আপনার ব্রাউজারে ঠিক এখন থেকে আগামী ২৪ ঘণ্টার জন্য অ্যাক্সেস দেওয়া হলো।");
         }
         checkAccessExpiry();
@@ -376,7 +373,6 @@
 
     function logoutApp() {
         localStorage.removeItem('gds_tool_expiry');
-        localStorage.removeItem('gds_active_key');
         checkAccessExpiry();
     }
 
