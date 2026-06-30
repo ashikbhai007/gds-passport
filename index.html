@@ -135,7 +135,7 @@
     <div class="app-body">
         <!-- লক স্ক্রিন -->
         <div id="lockScreen" class="lock-screen">
-            <div class="bkash-banner">bKash পেমেন্ট প্রয়োজন</div>
+            <div class="bkash-banner">bKash পেমেন্ট প্রয়োজন</div>
             <p>এই <b>Tool</b>-টি <b>২৪ ঘণ্টা</b> ব্যবহার করার জন্য নিচের bKash নাম্বারে <b>১০ টাকা (Send Money)</b> করুন:</p>
             <p style="font-size: 24px; color: #e2136e; font-weight: bold; margin: 10px 0;">bKash (Personal): +8801886780202</p>
             
@@ -153,7 +153,7 @@
             </div>
 
             <div class="payment-box" style="border-color: #28a745; background: #f4fff4;">
-                <h4 style="margin-top:0; color:#28a745;">ধাপ ২: অ্যাডমিনের দেওয়া Random Key বসান</h4>
+                <h4 style="margin-top:0; color:#28a745;">ধাপ ২: অ্যাডমিনের দেওয়া Random Key বসান</h4>
                 <input type="text" id="activationKeyInput" placeholder="অ্যাক্টিভেশন কি দিন" style="width: 94%;">
                 <button onclick="verifyKey()" style="background: #28a745; width: 100%; margin-top: 10px;">অ্যাক্টিভেট করুন</button>
             </div>
@@ -164,7 +164,7 @@
             <h2>📋 GDS Training Passport</h2>
             <div class="meta-info">
                 <div>Format: P | Country: BD | Year: 2026</div>
-                <div class="countdown-box">⏳ সময় বাকি: <span id="countdownTimer">00:00:00</span></div>
+                <div class="countdown-box">⏳ সময় বাকি: <span id="countdownTimer">00:00:00</span></div>
             </div>
             
             <div class="input-group">
@@ -198,12 +198,13 @@
         <div class="admin-section">
             <h3>🔑 Admin Panel</h3>
             <div id="adminLoginArea">
-                <input type="password" id="adminPasswordInput" placeholder="অ্যাডমিন পাসওয়ার্ড দিন">
+                <input type="password" id="adminPasswordInput" placeholder="অ্যাডমিন পাসওয়ার্ড দিন">
                 <button onclick="loginAdmin()">Login Admin</button>
             </div>
             <div id="adminDashboard" class="hidden">
                 <p style="color: green; font-weight: bold;">অ্যাডমিন হিসেবে লগইন আছেন</p>
                 <button onclick="generateRandomKey()" style="background: #ffc107; color: black;">একটি Random Key তৈরি করুন</button>
+                <button onclick="logoutAdmin()" style="background: #dc3545; color: white; margin-left: 10px;">Log Out Admin</button>
                 <div style="margin-top: 15px;">
                     <p>তৈরিকৃত র্যান্ডম কি (ইউজারকে এটি দিন):</p>
                     <input type="text" id="generatedKeyDisplay" readonly style="width: 300px; text-align: center; font-weight: bold; background: #eee; color: #0056b3;">
@@ -216,7 +217,7 @@
         <div class="firm-title">Developed By <span>Adnan IT And Ads Firm</span></div>
         <div>© 2026 Adnan IT And Ads Firm. All Rights Reserved.</div>
         <div class="policy-text">
-            <b>Copyright & Intellectual Property Policy:</b> এই ওয়েবসাইটের সম্পূর্ণ ডিজাইন, সোর্স কোড, ব্যাকএন্ড লজিক এবং ইউজার ইন্টারফেস মেকানিজম "Adnan IT And Ads Firm" এর নিজস্ব সম্পত্তি। কর্তৃপক্ষের লিখিত অনুমতি ছাড়া এই সিস্টেমের কোনো অংশ কপি করা, বাণিজ্যিক স্বার্থে অননুমোদিত পুনঃব্যবহার করা বা অন্য কোনো সার্ভারে ক্লোন করে প্রকাশ করা সম্পূর্ণ অবৈধ এবং কপিরাইট আইন অনুযায়ী কঠোরভাবে দণ্ডনীয় অপরাধ।
+            <b>Copyright & Intellectual Property Policy:</b> এই ওয়েবসাইটের সম্পূর্ণ ডিজাইন, সোর্স কোড, ব্যাকএন্ড লজিক এবং ইউজার ইন্টারফেস মেকানিজম "Adnan IT And Ads Firm" এর নিজস্ব সম্পত্তি। Authorities লিখিত অনুমতি ছাড়া এই সিস্টেমের কোনো অংশ কপি করা, বাণিজ্যিক স্বার্থে অননুমোদিত পুনঃব্যবহার করা বা অন্য কোনো সার্ভারে ক্লোন করে প্রকাশ করা সম্পূর্ণ অবৈধ এবং কপিরাইট আইন অনুযায়ী কঠোরভাবে দণ্ডনীয় অপরাধ।
         </div>
     </footer>
 </div>
@@ -334,6 +335,13 @@
         }
     }
 
+    function logoutAdmin() {
+        document.getElementById('adminPasswordInput').value = ''; 
+        document.getElementById('adminLoginArea').classList.remove('hidden'); 
+        document.getElementById('adminDashboard').classList.add('hidden'); 
+        alert("অ্যাডমিন প্যানেল সফলভাবে লগআউট ও লক করা হয়েছে!");
+    }
+
     function logoutApp() {
         localStorage.removeItem('gds_tool_expiry');
         checkAccessExpiry();
@@ -379,7 +387,7 @@
     }
 </script>
 
-<!-- 🚀 Adsterra Popunder Ad Script Connected Below -->
+<!-- Adsterra Popunder Ad Script -->
 <script src="https://pl30146285.effectivecpmnetwork.com/ea/3c/9f/ea3c9fa94d9fa9055aa0961c39da6a20.js"></script>
 
 </body>
