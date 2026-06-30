@@ -284,24 +284,21 @@
         timerInterval = setInterval(updateTimer, 1000);
     }
 
-    // 🛡️ সম্পূর্ণ রি-রাইট করা ওয়াটারপ্রুফ মেমোরি চেক লজিক 🛡️
     function checkAccessExpiry() {
         const expiryTimeRaw = localStorage.getItem('gds_tool_expiry');
         const now = new Date().getTime();
         
         if (expiryTimeRaw) {
             const expiryTime = parseInt(expiryTimeRaw, 10);
-            // যদি সেভ থাকা সময়টি বর্তমান সময়ের চেয়ে বড় হয় (অর্থাৎ মেয়াদ এখনো আছে)
             if (!isNaN(expiryTime) && expiryTime > now) {
                 document.getElementById('lockScreen').classList.add('hidden');
                 document.getElementById('appContent').classList.remove('hidden');
                 startCountdown(expiryTime);
                 generatePassports();
-                return; // এখানেই ফাংশন শেষ, নিচের লক স্ক্রিন কোড আর এক্সিকিউট হবে না
+                return;
             }
         }
         
-        // মেয়াদ শেষ হলে বা ডেটা না থাকলে লক স্ক্রিন দেখাবে
         document.getElementById('lockScreen').classList.remove('hidden');
         document.getElementById('appContent').classList.add('hidden');
         clearInterval(timerInterval);
@@ -323,11 +320,9 @@
 
     function verifyKey() {
         const userKey = document.getElementById('activationKeyInput').value.trim().toUpperCase();
-        
         let isValidKey = false;
-        if (userKey === "BYPASS2026") {
-            isValidKey = true;
-        } else if (userKey.startsWith("GDS-") && userKey.endsWith("-PASS")) {
+        
+        if (userKey.startsWith("GDS-") && userKey.endsWith("-PASS")) {
             const today = new Date();
             const d = today.getDate();
             const m = today.getMonth() + 1;
@@ -348,7 +343,7 @@
         if (isValidKey) {
             activateUserAccess();
         } else {
-            alert("ভুল কি! অথবা কি-টির মেয়াদ শেষ। অনুগ্রহ করে নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
+            alert("ভুল কি! অথবা কি-টির মেয়াদ শেষ। অনুগ্রহ করে নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
         }
     }
 
@@ -358,15 +353,13 @@
         
         if (expiryTimeRaw) {
             const expiryTime = parseInt(expiryTimeRaw, 10);
-            // যদি অলরেডি সচল টাইম মেমরিতে থাকে, তাহলে টাইম কোনোভাবেই আপডেট (রিসেট) হবে না
             if (!isNaN(expiryTime) && expiryTime > now) {
-                alert("আপনার টুলটি অলরেডি অ্যাক্টিভেটেড আছে। আগের বাকি থাকা সময় থেকেই কাউন্টডাউন চলবে।");
+                alert("আপনার টুলটি অলরেডি অ্যাক্টিভেটেড আছে। আগের বাকি থাকা সময় থেকেই কাউন্টডাউন চলবে।");
                 checkAccessExpiry();
                 return;
             }
         }
         
-        // মেমরিতে কোনো ভ্যালিড টাইম না থাকলে তবেই ফ্রেশ ২৪ ঘণ্টা দেওয়া হবে
         const twentyFourHours = 24 * 60 * 60 * 1000;
         const expiryTimestamp = now + twentyFourHours;
         localStorage.setItem('gds_tool_expiry', expiryTimestamp);
@@ -405,7 +398,8 @@
         const chd = parseInt(document.getElementById('chdCount').value) || 0;
         const inf = parseInt(document.getElementById('infCount').value) || 0;
         const tbody = document.getElementById('passportTableBody');
-        tbody.innerHTML = '';
+        
+        let htmlContent = ''; 
 
         function addRow(type) {
             let gender = Math.random() > 0.5 ? 'M' : 'F';
@@ -416,7 +410,7 @@
             let expiry = `${String(randNum(1,28)).padStart(2,'0')}${getRandom(months)}${randNum(2031, 2036)}`;
             let badgeClass = type === 'ADT' ? 'badge-adt' : (type === 'CHD' ? 'badge-chd' : 'badge-inf');
 
-            tbody.innerHTML += `<tr>
+            htmlContent += `<tr>
                 <td><span class="badge ${badgeClass}">${type}</span></td>
                 <td class="highlight">P</td>
                 <td class="highlight">BD</td>
@@ -429,9 +423,12 @@
                 <td>${expiry}</td>
             </tr>`;
         }
+        
         for(let i=0; i<adt; i++) addRow('ADT');
         for(let i=0; i<chd; i++) addRow('CHD');
         for(let i=0; i<inf; i++) addRow('INF');
+        
+        tbody.innerHTML = htmlContent; 
     }
 </script>
 
