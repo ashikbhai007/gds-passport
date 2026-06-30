@@ -149,6 +149,7 @@
     </div>
 
     <div class="app-body">
+        <!-- লক স্ক্রিন -->
         <div id="lockScreen" class="lock-screen">
             <div class="bkash-banner">bKash পেমেন্ট প্রয়োজন</div>
             <p style="font-size: 14px;">এই <b>Tool</b>-টি <b>২৪ ঘণ্টা</b> ব্যবহার করার জন্য নিচের bKash নাম্বারে <b>১০ টাকা (Send Money)</b> করুন:</p>
@@ -174,6 +175,7 @@
             </div>
         </div>
 
+        <!-- মূল অ্যাপ্লিকেশন -->
         <div id="appContent" class="hidden">
             <h2>📋 GDS Training Passport</h2>
             <div class="meta-info">
@@ -189,6 +191,7 @@
                 <button onclick="logoutApp()" style="background: #6c757d; margin-top: 5px;">Log Out / Lock</button>
             </div>
 
+            <!-- Responsive Table Wrapper -->
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -210,6 +213,7 @@
             </div>
         </div>
 
+        <!-- অ্যাডমিন প্যানেল -->
         <div class="admin-section">
             <h3>🔑 Admin Panel</h3>
             <div id="adminLoginArea">
@@ -268,6 +272,7 @@
             if (distance < 0) {
                 clearInterval(timerInterval);
                 localStorage.removeItem('gds_tool_expiry');
+                localStorage.removeItem('gds_active_key'); // এক্সপায়ার হলে কি মুছে যাবে
                 checkAccessExpiry();
                 return;
             }
@@ -310,7 +315,7 @@
 
     function verifyKey() {
         const userKey = document.getElementById('activationKeyInput').value.trim().toUpperCase();
-        if (userKey === "BYPASS2026") { activateUserAccess(); return; }
+        if (userKey === "BYPASS2026") { activateUserAccess(userKey); return; }
 
         if (userKey.startsWith("GDS-") && userKey.endsWith("-PASS")) {
             const today = new Date();
@@ -326,25 +331,28 @@
 
             const keyMiddle = userKey.replace("GDS-", "").replace("-PASS", "");
             if (keyMiddle.startsWith(hexToday) || keyMiddle.startsWith(hexYesterday)) {
-                activateUserAccess();
+                activateUserAccess(userKey);
                 return;
             }
         }
         alert("ভুল কি! অথবা কি-টির মেয়াদ শেষ। অনুগ্রহ করে নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
     }
 
-    /* 🛡️ ফিক্সড ফাংশন: আগের ভ্যালিড এক্সপায়ারি থাকলে নতুন করে রিসেট হবে না */
-    function activateUserAccess() {
+    /* 🛡️ পারফেক্ট লজিক: একই কি বারবার বসালেও কাউন্টডাউন প্রথম থেকে শুরু হবে না */
+    function activateUserAccess(key) {
+        const savedKey = localStorage.getItem('gds_active_key');
         const existingExpiry = localStorage.getItem('gds_tool_expiry');
         const now = new Date().getTime();
-        
-        // যদি আগে থেকেই সচল কোনো টাইম থাকে, তবে নতুন করে ২৪ ঘণ্টা সেট হবে না
-        if (existingExpiry && now < parseInt(existingExpiry)) {
-            alert("আপনার অ্যাকাউন্টটি ইতিমধ্যে সক্রিয় আছে এবং কাউন্টডাউন সচল রয়েছে।");
+
+        // যদি ইউজার আগের ব্যবহৃত কি-টিই আবার সাবমিট করে এবং সময় বাকি থাকে
+        if (savedKey === key && existingExpiry && now < parseInt(existingExpiry)) {
+            alert("এই কোডটি ইতিমধ্যে সক্রিয় আছে। আপনার আগের কাউন্টডাউনটিই সচল রাখা হলো।");
         } else {
+            // নতুন কি অথবা নতুন সেশনের জন্য নতুন করে ২৪ ঘণ্টা দেওয়া হবে
             const twentyFourHours = 24 * 60 * 60 * 1000;
             const expiryTimestamp = now + twentyFourHours;
             localStorage.setItem('gds_tool_expiry', expiryTimestamp);
+            localStorage.setItem('gds_active_key', key); // নতুন কি ব্রাউজারে সেভ হলো
             alert("সফল হয়েছে! আপনার ব্রাউজারে ঠিক এখন থেকে আগামী ২৪ ঘণ্টার জন্য অ্যাক্সেস দেওয়া হলো।");
         }
         checkAccessExpiry();
@@ -368,6 +376,7 @@
 
     function logoutApp() {
         localStorage.removeItem('gds_tool_expiry');
+        localStorage.removeItem('gds_active_key');
         checkAccessExpiry();
     }
 
@@ -411,8 +420,10 @@
     }
 </script>
 
+<!-- Adsterra Popunder Ad Script -->
 <script src="https://pl30146285.effectivecpmnetwork.com/ea/3c/9f/ea3c9fa94d9fa9055aa0961c39da6a20.js"></script>
 
+<!-- Adsterra Social Bar Ad Script -->
 <script src="https://pl30146870.effectivecpmnetwork.com/ca/1b/41/ca1b417f20355be0c606f2d5b2cc53ce.js"></script>
 
 </body>
