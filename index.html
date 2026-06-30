@@ -68,7 +68,6 @@
         }
         @media (min-width: 768px) { .brand-header p { font-size: 13px; } }
 
-        /* 📞 Header Phone Number Style */
         .header-phone {
             margin-top: 8px;
             font-size: 13px;
@@ -113,7 +112,6 @@
         @media (min-width: 480px) { button { width: auto; } }
         button:hover { background: #004085; }
         
-        /* 📱 Mobile Table Container Setup */
         .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 20px; border: 1px solid #ddd; border-radius: 6px; }
         table { width: 100%; border-collapse: collapse; min-width: 800px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         th, td { border: 1px solid #ddd; padding: 12px 10px; text-align: left; font-size: 13px; }
@@ -191,7 +189,6 @@
                 <button onclick="logoutApp()" style="background: #6c757d; margin-top: 5px;">Log Out / Lock</button>
             </div>
 
-            <!-- Responsive Table Wrapper -->
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -304,11 +301,14 @@
         clearInterval(timerInterval);
     }
 
+    // 🕒 টাইম-লকড র্যান্ডম কি জেনারেটর (ঘণ্টা ভিত্তিক সিকিউরিটি)
     function generateRandomKey() {
         const today = new Date();
         const d = today.getDate();
         const m = today.getMonth() + 1;
-        const secretSum = (d * 7) + (m * 13);
+        const h = today.getHours(); // কারেন্ট আওয়ার এনকোড
+        
+        const secretSum = (d * 7) + (m * 13) + (h * 3);
         const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
         let randomPart = "";
         for (let i = 0; i < 4; i++) {
@@ -318,52 +318,49 @@
         document.getElementById('generatedKeyDisplay').value = generatedKey;
     }
 
+    // 🛡️ ডাইনামিক কি ভেরিফিকেশন ও টাইম রিসেট প্রটেকশন
     function verifyKey() {
         const userKey = document.getElementById('activationKeyInput').value.trim().toUpperCase();
         let isValidKey = false;
+        let expirationTimestamp = 0;
         
         if (userKey.startsWith("GDS-") && userKey.endsWith("-PASS")) {
             const today = new Date();
             const d = today.getDate();
             const m = today.getMonth() + 1;
-            const correctSumToday = (d * 7) + (m * 13);
-            const hexToday = correctSumToday.toString(16).toUpperCase();
-            
-            const yesterday = new Date(today);
-            yesterday.setDate(today.getDate() - 1);
-            const correctSumYesterday = (yesterday.getDate() * 7) + ((yesterday.getMonth() + 1) * 13);
-            const hexYesterday = correctSumYesterday.toString(16).toUpperCase();
+            const h = today.getHours();
 
-            const keyMiddle = userKey.replace("GDS-", "").replace("-PASS", "");
-            if (keyMiddle.startsWith(hexToday) || keyMiddle.startsWith(hexYesterday)) {
-                isValidKey = true;
+            // চেক করা হবে কি-টি গত ৩ ঘণ্টার মধ্যে তৈরি করা হয়েছে কি না (শেয়ারিং রোধে)
+            for(let i = 0; i <= 3; i++) {
+                let testHour = h - i;
+                let testDate = d;
+                if(testHour < 0) { testHour += 24; testDate -= 1; }
+                
+                const correctSum = (testDate * 7) + (m * 13) + (testHour * 3);
+                const hexCheck = correctSum.toString(16).toUpperCase();
+                
+                const keyMiddle = userKey.replace("GDS-", "").replace("-PASS", "");
+                if (keyMiddle.startsWith(hexCheck)) {
+                    isValidKey = true;
+                    // টাইম রিসেট প্রটেকশন: কি তৈরি হওয়ার সময়কাল থেকে ঠিক ২৪ ঘণ্টা ফিক্সড এক্সপায়ারি জেনারেট হবে।
+                    // ফলে নতুন ব্রাউজারে দিলেও টাইম রিসেট হবে না, আগের টাইমটাই সিঙ্ক হবে।
+                    const baseTime = new Date(today.getFullYear(), today.getMonth(), testDate, testHour, 0, 0);
+                    expirationTimestamp = baseTime.getTime() + (24 * 60 * 60 * 1000);
+                    break;
+                }
             }
         }
 
-        if (isValidKey) {
-            activateUserAccess();
+        if (isValidKey && expirationTimestamp > new Date().getTime()) {
+            activateUserAccess(expirationTimestamp);
         } else {
-            alert("ভুল কি! অথবা কি-টির মেয়াদ শেষ। অনুগ্রহ করে নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
+            alert("ভুল কি! অথবা এই কি-টির মেয়াদ শেষ হয়ে গেছে। নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
         }
     }
 
-    function activateUserAccess() {
-        const expiryTimeRaw = localStorage.getItem('gds_tool_expiry');
-        const now = new Date().getTime();
-        
-        if (expiryTimeRaw) {
-            const expiryTime = parseInt(expiryTimeRaw, 10);
-            if (!isNaN(expiryTime) && expiryTime > now) {
-                alert("আপনার টুলটি অলরেডি অ্যাক্টিভেটেড আছে। আগের বাকি থাকা সময় থেকেই কাউন্টডাউন চলবে।");
-                checkAccessExpiry();
-                return;
-            }
-        }
-        
-        const twentyFourHours = 24 * 60 * 60 * 1000;
-        const expiryTimestamp = now + twentyFourHours;
-        localStorage.setItem('gds_tool_expiry', expiryTimestamp);
-        alert("সফল হয়েছে! আপনার ব্রাউজারে আগামী ২৪ ঘণ্টার জন্য অ্যাক্সেস দেওয়া হলো।");
+    function activateUserAccess(targetExpiry) {
+        localStorage.setItem('gds_tool_expiry', targetExpiry);
+        alert("সফল হয়েছে! আপনার অ্যাক্সেস ভেরিফাই করা হয়েছে।");
         checkAccessExpiry(); 
     }
 
