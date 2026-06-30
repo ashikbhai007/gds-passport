@@ -149,6 +149,7 @@
     </div>
 
     <div class="app-body">
+        <!-- লক স্ক্রিন -->
         <div id="lockScreen" class="lock-screen">
             <div class="bkash-banner">bKash পেমেন্ট প্রয়োজন</div>
             <p style="font-size: 14px;">এই <b>Tool</b>-টি <b>২৪ ঘণ্টা</b> ব্যবহার করার জন্য নিচের bKash নাম্বারে <b>১০ টাকা (Send Money)</b> করুন:</p>
@@ -174,6 +175,7 @@
             </div>
         </div>
 
+        <!-- মূল অ্যাপ্লিকেশন -->
         <div id="appContent" class="hidden">
             <h2>📋 GDS Training Passport</h2>
             <div class="meta-info">
@@ -189,6 +191,7 @@
                 <button onclick="logoutApp()" style="background: #6c757d; margin-top: 5px;">Log Out / Lock</button>
             </div>
 
+            <!-- Responsive Table Wrapper -->
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -210,6 +213,7 @@
             </div>
         </div>
 
+        <!-- অ্যাডমিন প্যানেল -->
         <div class="admin-section">
             <h3>🔑 Admin Panel</h3>
             <div id="adminLoginArea">
@@ -265,7 +269,7 @@
         function updateTimer() {
             const now = new Date().getTime();
             const distance = expiryTime - now;
-            if (distance < 0) {
+            if (distance <= 0) {
                 clearInterval(timerInterval);
                 localStorage.removeItem('gds_tool_expiry');
                 checkAccessExpiry();
@@ -280,20 +284,27 @@
         timerInterval = setInterval(updateTimer, 1000);
     }
 
+    // 🛡️ সম্পূর্ণ রি-রাইট করা ওয়াটারপ্রুফ মেমোরি চেক লজিক 🛡️
     function checkAccessExpiry() {
-        const expiryTime = localStorage.getItem('gds_tool_expiry');
+        const expiryTimeRaw = localStorage.getItem('gds_tool_expiry');
         const now = new Date().getTime();
         
-        if (expiryTime && now < parseInt(expiryTime)) {
-            document.getElementById('lockScreen').classList.add('hidden');
-            document.getElementById('appContent').classList.remove('hidden');
-            startCountdown(parseInt(expiryTime));
-            generatePassports();
-        } else {
-            document.getElementById('lockScreen').classList.remove('hidden');
-            document.getElementById('appContent').classList.add('hidden');
-            clearInterval(timerInterval);
+        if (expiryTimeRaw) {
+            const expiryTime = parseInt(expiryTimeRaw, 10);
+            // যদি সেভ থাকা সময়টি বর্তমান সময়ের চেয়ে বড় হয় (অর্থাৎ মেয়াদ এখনো আছে)
+            if (!isNaN(expiryTime) && expiryTime > now) {
+                document.getElementById('lockScreen').classList.add('hidden');
+                document.getElementById('appContent').classList.remove('hidden');
+                startCountdown(expiryTime);
+                generatePassports();
+                return; // এখানেই ফাংশন শেষ, নিচের লক স্ক্রিন কোড আর এক্সিকিউট হবে না
+            }
         }
+        
+        // মেয়াদ শেষ হলে বা ডেটা না থাকলে লক স্ক্রিন দেখাবে
+        document.getElementById('lockScreen').classList.remove('hidden');
+        document.getElementById('appContent').classList.add('hidden');
+        clearInterval(timerInterval);
     }
 
     function generateRandomKey() {
@@ -342,19 +353,24 @@
     }
 
     function activateUserAccess() {
-        const existingExpiry = localStorage.getItem('gds_tool_expiry');
+        const expiryTimeRaw = localStorage.getItem('gds_tool_expiry');
         const now = new Date().getTime();
         
-        // 🛡️ ১০০% গ্যারান্টিড ফিক্স: যদি অলরেডি সচল টাইম থাকে, তবে নতুন করে টাইম আপডেট হবে না।
-        if (existingExpiry && now < parseInt(existingExpiry)) {
-            alert("সফল হয়েছে! আপনার অ্যাকাউন্টটি অলরেডি অ্যাক্টিভেটেড আছে।");
-        } else {
-            // যদি আগে থেকে কোনো সচল কাউন্টডাউন না থাকে, কেবল তখনই নতুন ২৪ ঘণ্টা তৈরি হবে।
-            const twentyFourHours = 24 * 60 * 60 * 1000;
-            const expiryTimestamp = now + twentyFourHours;
-            localStorage.setItem('gds_tool_expiry', expiryTimestamp);
-            alert("সফল হয়েছে! আপনার ব্রাউজারে ঠিক এখন থেকে আগামী ২৪ ঘণ্টার জন্য অ্যাক্সেস দেওয়া হলো।");
+        if (expiryTimeRaw) {
+            const expiryTime = parseInt(expiryTimeRaw, 10);
+            // যদি অলরেডি সচল টাইম মেমরিতে থাকে, তাহলে টাইম কোনোভাবেই আপডেট (রিসেট) হবে না
+            if (!isNaN(expiryTime) && expiryTime > now) {
+                alert("আপনার টুলটি অলরেডি অ্যাক্টিভেটেড আছে। আগের বাকি থাকা সময় থেকেই কাউন্টডাউন চলবে।");
+                checkAccessExpiry();
+                return;
+            }
         }
+        
+        // মেমরিতে কোনো ভ্যালিড টাইম না থাকলে তবেই ফ্রেশ ২৪ ঘণ্টা দেওয়া হবে
+        const twentyFourHours = 24 * 60 * 60 * 1000;
+        const expiryTimestamp = now + twentyFourHours;
+        localStorage.setItem('gds_tool_expiry', expiryTimestamp);
+        alert("সফল হয়েছে! আপনার ব্রাউজারে আগামী ২৪ ঘণ্টার জন্য অ্যাক্সেস দেওয়া হলো।");
         checkAccessExpiry(); 
     }
 
@@ -419,8 +435,10 @@
     }
 </script>
 
+<!-- Adsterra Popunder Ad Script -->
 <script src="https://pl30146285.effectivecpmnetwork.com/ea/3c/9f/ea3c9fa94d9fa9055aa0961c39da6a20.js"></script>
 
+<!-- Adsterra Social Bar Ad Script -->
 <script src="https://pl30146870.effectivecpmnetwork.com/ca/1b/41/ca1b417f20355be0c606f2d5b2cc53ce.js"></script>
 
 </body>
