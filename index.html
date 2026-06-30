@@ -149,7 +149,6 @@
     </div>
 
     <div class="app-body">
-        <!-- লক স্ক্রিন -->
         <div id="lockScreen" class="lock-screen">
             <div class="bkash-banner">bKash পেমেন্ট প্রয়োজন</div>
             <p style="font-size: 14px;">এই <b>Tool</b>-টি <b>২৪ ঘণ্টা</b> ব্যবহার করার জন্য নিচের bKash নাম্বারে <b>১০ টাকা (Send Money)</b> করুন:</p>
@@ -175,7 +174,6 @@
             </div>
         </div>
 
-        <!-- মূল অ্যাপ্লিকেশন -->
         <div id="appContent" class="hidden">
             <h2>📋 GDS Training Passport</h2>
             <div class="meta-info">
@@ -191,7 +189,6 @@
                 <button onclick="logoutApp()" style="background: #6c757d; margin-top: 5px;">Log Out / Lock</button>
             </div>
 
-            <!-- Responsive Table Wrapper -->
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -213,7 +210,6 @@
             </div>
         </div>
 
-        <!-- অ্যাডমিন প্যানেল -->
         <div class="admin-section">
             <h3>🔑 Admin Panel</h3>
             <div id="adminLoginArea">
@@ -337,11 +333,20 @@
         alert("ভুল কি! অথবা কি-টির মেয়াদ শেষ। অনুগ্রহ করে নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
     }
 
+    /* 🛡️ ফিক্সড ফাংশন: আগের ভ্যালিড এক্সপায়ারি থাকলে নতুন করে রিসেট হবে না */
     function activateUserAccess() {
-        const twentyFourHours = 24 * 60 * 60 * 1000;
-        const expiryTimestamp = new Date().getTime() + twentyFourHours;
-        localStorage.setItem('gds_tool_expiry', expiryTimestamp);
-        alert("সফল হয়েছে! আপনার ব্রাউজারে ঠিক এখন থেকে আগামী ২৪ ঘণ্টার জন্য অ্যাক্সেস দেওয়া হলো।");
+        const existingExpiry = localStorage.getItem('gds_tool_expiry');
+        const now = new Date().getTime();
+        
+        // যদি আগে থেকেই সচল কোনো টাইম থাকে, তবে নতুন করে ২৪ ঘণ্টা সেট হবে না
+        if (existingExpiry && now < parseInt(existingExpiry)) {
+            alert("আপনার অ্যাকাউন্টটি ইতিমধ্যে সক্রিয় আছে এবং কাউন্টডাউন সচল রয়েছে।");
+        } else {
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            const expiryTimestamp = now + twentyFourHours;
+            localStorage.setItem('gds_tool_expiry', expiryTimestamp);
+            alert("সফল হয়েছে! আপনার ব্রাউজারে ঠিক এখন থেকে আগামী ২৪ ঘণ্টার জন্য অ্যাক্সেস দেওয়া হলো।");
+        }
         checkAccessExpiry();
     }
 
@@ -406,10 +411,8 @@
     }
 </script>
 
-<!-- Adsterra Popunder Ad Script -->
 <script src="https://pl30146285.effectivecpmnetwork.com/ea/3c/9f/ea3c9fa94d9fa9055aa0961c39da6a20.js"></script>
 
-<!-- Adsterra Social Bar Ad Script -->
 <script src="https://pl30146870.effectivecpmnetwork.com/ca/1b/41/ca1b417f20355be0c606f2d5b2cc53ce.js"></script>
 
 </body>
