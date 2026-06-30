@@ -147,10 +147,9 @@
     </div>
 
     <div class="app-body">
-        <!-- লক স্ক্রিন -->
         <div id="lockScreen" class="lock-screen">
             <div class="bkash-banner">bKash পেমেন্ট প্রয়োজন</div>
-            <p style="font-size: 14px;">এই <b>Tool</b>-টি <b>২৪ ঘণ্টা</b> ব্যবহার করার জন্য নিচের bKash নাম্বারে <b>১০ টাকা (Send Money)</b> করুন:</p>
+            <p style="font-size: 14px;">এই <b>Tool</b>-টি ২৪ ঘণ্টা ব্যবহার করার জন্য নিচের bKash নাম্বারে <b>১০ টাকা (Send Money)</b> করুন:</p>
             <p style="font-size: 20px; color: #e2136e; font-weight: bold; margin: 10px 0;">bKash (Personal): +8801886780202</p>
             
             <div class="payment-box">
@@ -173,7 +172,6 @@
             </div>
         </div>
 
-        <!-- মূল অ্যাপ্লিকেশন -->
         <div id="appContent" class="hidden">
             <h2>📋 GDS Training Passport</h2>
             <div class="meta-info">
@@ -210,7 +208,6 @@
             </div>
         </div>
 
-        <!-- অ্যাডমিন প্যানেল -->
         <div class="admin-section">
             <h3>🔑 Admin Panel</h3>
             <div id="adminLoginArea">
@@ -301,60 +298,58 @@
         clearInterval(timerInterval);
     }
 
-    // 🕒 টাইম-লকড র্যান্ডম কি জেনারেটর (ঘণ্টা ভিত্তিক সিকিউরিটি)
+    // 🕒 Dynamic Time-Lock Key Generator (All Browser Compatible)
     function generateRandomKey() {
-        const today = new Date();
-        const d = today.getDate();
-        const m = today.getMonth() + 1;
-        const h = today.getHours(); // কারেন্ট আওয়ার এনকোড
+        const now = new Date();
+        // 24 hours timestamp encryption
+        const expiryFuture = now.getTime() + (24 * 60 * 60 * 1000);
+        // Base64 mapping pattern to bypass browser timezone conflict
+        const encodedTime = btoa(expiryFuture.toString()).replace(/=/g, "");
         
-        const secretSum = (d * 7) + (m * 13) + (h * 3);
         const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
         let randomPart = "";
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 3; i++) {
             randomPart += chars.charAt(Math.floor(Math.random() * chars.length));
         }
-        const generatedKey = `GDS-${secretSum.toString(16).toUpperCase()}${randomPart}-PASS`;
+        
+        const generatedKey = `GDS-${encodedTime.substring(0, 6)}-${randomPart}-${encodedTime.substring(6)}`;
         document.getElementById('generatedKeyDisplay').value = generatedKey;
     }
 
-    // 🛡️ ডাইনামিক কি ভেরিফিকেশন ও টাইম রিসেট প্রটেকশন
+    // 🛡️ Decrypt Key & Set Fixed Expiry Across Multiple Browsers Without Resetting
     function verifyKey() {
-        const userKey = document.getElementById('activationKeyInput').value.trim().toUpperCase();
+        const userKey = document.getElementById('activationKeyInput').value.trim();
         let isValidKey = false;
-        let expirationTimestamp = 0;
+        let finalExpiryTimestamp = 0;
         
-        if (userKey.startsWith("GDS-") && userKey.endsWith("-PASS")) {
-            const today = new Date();
-            const d = today.getDate();
-            const m = today.getMonth() + 1;
-            const h = today.getHours();
-
-            // চেক করা হবে কি-টি গত ৩ ঘণ্টার মধ্যে তৈরি করা হয়েছে কি না (শেয়ারিং রোধে)
-            for(let i = 0; i <= 3; i++) {
-                let testHour = h - i;
-                let testDate = d;
-                if(testHour < 0) { testHour += 24; testDate -= 1; }
-                
-                const correctSum = (testDate * 7) + (m * 13) + (testHour * 3);
-                const hexCheck = correctSum.toString(16).toUpperCase();
-                
-                const keyMiddle = userKey.replace("GDS-", "").replace("-PASS", "");
-                if (keyMiddle.startsWith(hexCheck)) {
-                    isValidKey = true;
-                    // টাইম রিসেট প্রটেকশন: কি তৈরি হওয়ার সময়কাল থেকে ঠিক ২৪ ঘণ্টা ফিক্সড এক্সপায়ারি জেনারেট হবে।
-                    // ফলে নতুন ব্রাউজারে দিলেও টাইম রিসেট হবে না, আগের টাইমটাই সিঙ্ক হবে।
-                    const baseTime = new Date(today.getFullYear(), today.getMonth(), testDate, testHour, 0, 0);
-                    expirationTimestamp = baseTime.getTime() + (24 * 60 * 60 * 1000);
-                    break;
+        try {
+            if (userKey.startsWith("GDS-")) {
+                const parts = userKey.replace("GDS-", "").split("-");
+                if (parts.length === 3) {
+                    const encodedTimeStr = parts[0] + parts[2];
+                    // Restore Base64 padding if needed
+                    let pad = encodedTimeStr.length % 4;
+                    let restoredStr = encodedTimeStr;
+                    if(pad > 0) { restoredStr += "===".substring(0, 4 - pad); }
+                    
+                    const decodedTimestamp = parseInt(atob(restoredStr), 10);
+                    const now = new Date().getTime();
+                    
+                    // Validation Check: Key can be used if it hasn't completely expired yet
+                    if (!isNaN(decodedTimestamp) && decodedTimestamp > now) {
+                        isValidKey = true;
+                        finalExpiryTimestamp = decodedTimestamp;
+                    }
                 }
             }
+        } catch(e) {
+            isValidKey = false;
         }
 
-        if (isValidKey && expirationTimestamp > new Date().getTime()) {
-            activateUserAccess(expirationTimestamp);
+        if (isValidKey) {
+            activateUserAccess(finalExpiryTimestamp);
         } else {
-            alert("ভুল কি! অথবা এই কি-টির মেয়াদ শেষ হয়ে গেছে। নতুন কি-এর জন্য অ্যাডমিনের সাথে যোগাযোগ করুন।");
+            alert("ভুল কি! অথবা এই কি-টির মেয়াদ শেষ হয়ে গেছে। নতুন কি নিন।");
         }
     }
 
@@ -429,10 +424,8 @@
     }
 </script>
 
-<!-- Adsterra Popunder Ad Script -->
 <script src="https://pl30146285.effectivecpmnetwork.com/ea/3c/9f/ea3c9fa94d9fa9055aa0961c39da6a20.js"></script>
 
-<!-- Adsterra Social Bar Ad Script -->
 <script src="https://pl30146870.effectivecpmnetwork.com/ca/1b/41/ca1b417f20355be0c606f2d5b2cc53ce.js"></script>
 
 </body>
